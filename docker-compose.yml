@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+    environment:
+      - SQLALCHEMY_DATABASE_URI=mysql+pymysql://user:password@db/pdf_db
+
+  db:
+    image: mysql:8.0
+    volumes:
+      - db-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: pdf_db
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+
+volumes:
+  db-data:
